@@ -720,7 +720,7 @@
                 cart.push({ id, name, price, quantity: 1 });
             }
             updateCartUI();
-            openCartDrawer(); // Slide open cart to show confirmation item added
+            // openCartDrawer(); <- REMOVED to stop the checkout drawer popup
         }
 
         function removeCartItem(id) {
