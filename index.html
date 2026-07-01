@@ -34,7 +34,6 @@
             padding: 15px 5px 25px 5px;
         }
         
-        /* Playful Font Styling for BRKT */
         .logo {
             font-family: system-ui, "Fredoka One", "Comic Sans MS", cursive, sans-serif;
             font-size: 38px; 
@@ -79,7 +78,6 @@
             fill: none;
         }
 
-        /* Cart Badge Count */
         .cart-count {
             position: absolute;
             top: -2px;
@@ -97,24 +95,31 @@
             display: none; 
         }
 
-        /* Responsive Adaptive Grid System */
-        .grid {
+        /* View Router Management */
+        .view-section {
+            display: none;
             max-width: 850px;
             width: 100%;
             margin: 0 auto;
+            flex: 1;
+        }
+        .view-section.active {
+            display: block;
+        }
+
+        /* Responsive Adaptive Grid System */
+        .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            grid-auto-rows: 1fr; /* Forces all cards within a row to stretch to match the tallest one */
+            grid-auto-rows: minmax(min-content, max-content);
             gap: 14px;
             padding-top: 5px;
             padding-bottom: 60px;
-            flex: 1;
         }
 
         @media (max-width: 380px) {
             .grid {
                 grid-template-columns: 1fr;
-                grid-auto-rows: auto;
                 gap: 20px;
             }
         }
@@ -127,8 +132,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between; /* Ensures the inner structures stretch evenly */
             height: 100%;
+            cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
@@ -144,7 +149,6 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.03);
         }
         
-        /* Auto-Fit Resolution Image Container */
         .image-container {
             width: 100%;
             aspect-ratio: 1 / 1;
@@ -186,28 +190,20 @@
             display: flex;
             flex-direction: column;
             flex-grow: 1;
-            justify-content: space-between;
         }
         
         .title {
             font-size: 14px;
             color: #222;
-            font-weight: 400;
-            margin-bottom: 4px;
+            font-weight: 500;
+            margin-bottom: 6px;
             letter-spacing: 0.1px;
             line-height: 1.3;
-            min-height: 36px; /* Reserves uniform spacing across structural variations */
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
         }
 
         @media (min-width: 480px) {
             .title {
                 font-size: 16px;
-                margin-bottom: 6px;
-                min-height: 42px;
             }
         }
         
@@ -215,34 +211,93 @@
             font-size: 15px;
             font-weight: 600;
             color: #000;
-            margin-bottom: 12px;
+            margin-top: auto; 
         }
 
         @media (min-width: 480px) {
             .price {
-                font-size: 18px;
-                margin-bottom: 15px;
+                font-size: 17px;
             }
+        }
+
+        /* Dedicated Product Page Layout */
+        .product-page-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding-bottom: 60px;
+        }
+
+        @media (min-width: 650px) {
+            .product-page-container {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 40px;
+                padding-top: 20px;
+            }
+            .product-page-container .image-container {
+                flex: 1;
+                max-width: 450px;
+                margin-bottom: 0;
+            }
+            .product-page-container .details-panel {
+                flex: 1;
+            }
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 20px;
+            padding: 4px 0;
+        }
+
+        .back-btn:hover {
+            color: #000;
+        }
+
+        .detail-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 10px;
+        }
+
+        .detail-price {
+            font-size: 20px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        .detail-desc {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 16px;
         }
 
         .add-btn {
             width: 100%;
+            max-width: 300px;
             background: #000000;
             color: #ffffff;
             border: none;
-            padding: 12px;
-            font-size: 13px;
+            padding: 14px;
+            font-size: 14px;
             font-weight: 500;
             border-radius: 10px;
             cursor: pointer;
             transition: background 0.2s;
-            margin-top: auto; /* Locks button cleanly to container base */
-        }
-
-        @media (min-width: 480px) {
-            .add-btn {
-                font-size: 14px;
-            }
         }
 
         .add-btn:hover {
@@ -362,7 +417,6 @@
             padding: 4px;
         }
 
-        /* Cart Footer Context System */
         .cart-footer {
             padding: 20px;
             border-top: 1px solid #eee;
@@ -460,7 +514,7 @@
             </svg>
         </button>
         
-        <div class="logo" onclick="window.location.reload()">BRKT</div>
+        <div class="logo" id="logoHome">BRKT</div>
         
         <div class="icons">
             <button class="icon-btn" id="profileBtn" aria-label="Profile">
@@ -480,62 +534,23 @@
         </div>
     </header>
 
-    <main class="grid">
-        
-        <div class="card" data-id="1" data-name="VOZOL 40K – Lime Green" data-price="4900">
-            <div class="image-container bg-lime">
-                <img src="neon.JPG" alt="VOZOL 40K - Lime Green" class="product-image" onerror="this.style.display='none'">
-            </div>
-            <div class="info">
-                <div class="title">VOZOL 40K – Lime Green</div>
-                <div class="price">Br4,900.00 ETB</div>
-                <button class="add-btn">Add to Cart</button>
-            </div>
-        </div>
-
-        <div class="card" data-id="2" data-name="VOZOL 40K – Purple" data-price="4900">
-            <div class="image-container bg-blue">
-                <img src="purple.JPG" alt="VOZOL 40K - Purple" class="product-image" onerror="this.style.display='none'">
-            </div>
-            <div class="info">
-                <div class="title">VOZOL 40K – Purple</div>
-                <div class="price">Br4,900.00 ETB</div>
-                <button class="add-btn">Add to Cart</button>
-            </div>
-        </div>
-
-        <div class="card" data-id="3" data-name="VOZOL 40K – Cherry Cola" data-price="4900">
-            <div class="image-container bg-pink">
-                <img src="cherry.JPG" alt="VOZOL 40K - Cherry Cola" class="product-image" onerror="this.style.display='none'">
-            </div>
-            <div class="info">
-                <div class="title">VOZOL 40K – Cherry Cola</div>
-                <div class="price">Br4,900.00 ETB</div>
-                <button class="add-btn">Add to Cart</button>
-            </div>
-        </div>
-
-        <div class="card" data-id="4" data-name="VOZOL 40K – V Bull" data-price="4900">
-            <div class="image-container bg-orange">
-                <img src="bull.JPG" alt="VOZOL 40K - V Bull" class="product-image" onerror="this.style.display='none'">
-            </div>
-            <div class="info">
-                <div class="title">VOZOL 40K – V Bull</div>
-                <div class="price">Br4,900.00 ETB</div>
-                <button class="add-btn">Add to Cart</button>
-            </div>
-        </div>
-
+    <main class="view-section active" id="catalogView">
+        <div class="grid" id="productGrid"></div>
     </main>
+
+    <section class="view-section" id="detailsView">
+        <button class="back-btn" id="backToShopBtn">← Back to Shop</button>
+        <div class="product-page-container" id="productPageContent"></div>
+    </section>
 
     <footer>
         <div>© 2026, BRKTshop <span class="footer-dot">·</span></div>
         <div class="footer-links">
-            <a href="#" onclick="alert('Policy data summary.')">Privacy policy</a>
+            <a href="#" onclick="alert('Privacy policy summary.')">Privacy policy</a>
             <span class="footer-dot">·</span>
-            <a href="#" onclick="alert('Policy data summary.')">Terms of service</a>
+            <a href="#" onclick="alert('Terms of service summary.')">Terms of service</a>
             <span class="footer-dot">·</span>
-            <a href="#" onclick="alert('Policy data summary.')">Shipping policy</a>
+            <a href="#" onclick="alert('Shipping policy summary.')">Shipping policy</a>
             <span class="footer-dot">·</span>
             <a href="#" onclick="alert('Contact details modal.')">Contact information</a>
         </div>
@@ -575,8 +590,50 @@
     </div>
 
     <script>
+        // Data Store Setup
+        const products = [
+            {
+                id: "1",
+                name: "VOZOL 40K – Lime Green",
+                price: 4900,
+                bgClass: "bg-lime",
+                imgSrc: "neon.JPG",
+                desc: "Crisp zesty key-lime profiles paired with a refreshing chilling finish. Features a smart digital counter display, dual mesh coils, and an ergonomic mouthpiece engineered for flavor precision."
+            },
+            {
+                id: "2",
+                name: "VOZOL 40K – Purple",
+                price: 4900,
+                bgClass: "bg-blue",
+                imgSrc: "purple.JPG",
+                desc: "Deep rich mountain grape blends featuring an icy splash. Long-lasting, high-capacity mesh coil experience designed to sustain optimal vapor rendering from first charge to last drop."
+            },
+            {
+                id: "3",
+                name: "VOZOL 40K – Cherry Cola",
+                price: 4900,
+                bgClass: "bg-pink",
+                imgSrc: "cherry.JPG",
+                desc: "Classic bubbly soda fountain nostalgia struck by sweet black cherries. Perfect balance of sweet and tangy textures combined with advanced smart sensory control dynamics."
+            },
+            {
+                id: "4",
+                name: "VOZOL 40K – V Bull",
+                price: 4900,
+                bgClass: "bg-orange",
+                imgSrc: "bull.JPG",
+                desc: "Electric, carbonated energy drink boost flavor profile engineered to satisfy. Bright, dynamic punch tailored precisely for long sessions with zero output degradation."
+            }
+        ];
+
         let cart = [];
 
+        // UI Target Elements
+        const catalogView = document.getElementById('catalogView');
+        const detailsView = document.getElementById('detailsView');
+        const productGrid = document.getElementById('productGrid');
+        const productPageContent = document.getElementById('productPageContent');
+        
         const cartDrawer = document.getElementById('cartDrawer');
         const cartBtn = document.getElementById('cartBtn');
         const closeCart = document.getElementById('closeCart');
@@ -588,6 +645,58 @@
         const checkoutForm = document.getElementById('checkoutForm');
         const submitBtn = document.getElementById('submitBtn');
 
+        // Draw Catalog Grid dynamically
+        function renderCatalog() {
+            productGrid.innerHTML = '';
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="image-container ${product.bgClass}">
+                        <img src="${product.imgSrc}" alt="${product.name}" class="product-image" onerror="this.style.display='none'">
+                    </div>
+                    <div class="info">
+                        <div class="title">${product.name}</div>
+                        <div class="price">Br${product.price.toLocaleString()}.00 ETB</div>
+                    </div>
+                `;
+                card.addEventListener('click', () => showProductDetails(product.id));
+                productGrid.appendChild(card);
+            });
+        }
+
+        // Display Detailed Page View
+        function showProductDetails(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            productPageContent.innerHTML = `
+                <div class="image-container ${product.bgClass}">
+                    <img src="${product.imgSrc}" alt="${product.name}" class="product-image" onerror="this.style.display='none'">
+                </div>
+                <div class="details-panel">
+                    <h1 class="detail-title">${product.name}</h1>
+                    <div class="detail-price">Br${product.price.toLocaleString()}.00 ETB</div>
+                    <p class="detail-desc">${product.desc}</p>
+                    <button class="add-btn" onclick="addToCartArray('${product.id}', '${product.name}', ${product.price})">Add to Cart</button>
+                </div>
+            `;
+
+            catalogView.classList.remove('active');
+            detailsView.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // View Routing Controls
+        function showCatalogView() {
+            detailsView.classList.remove('active');
+            catalogView.classList.add('active');
+        }
+
+        document.getElementById('backToShopBtn').addEventListener('click', showCatalogView);
+        document.getElementById('logoHome').addEventListener('click', showCatalogView);
+
+        // Drawer Controls
         function openCartDrawer() {
             cartDrawer.classList.add('open');
             overlay.classList.add('open');
@@ -602,28 +711,7 @@
         closeCart.addEventListener('click', closeCartDrawer);
         overlay.addEventListener('click', closeCartDrawer);
 
-        // Header search mock functionality
-        document.getElementById('searchBtn').addEventListener('click', () => {
-            const query = prompt("What flavor or product are you searching for?");
-            if(query) alert(`Searching store listings for: "${query}"`);
-        });
-        document.getElementById('profileBtn').addEventListener('click', () => {
-            alert("Customer account access is disabled on this demo profile.");
-        });
-
-        // Add to Cart workflow
-        const addButtons = document.querySelectorAll('.add-btn');
-        addButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const card = e.target.closest('.card');
-                const id = card.getAttribute('data-id');
-                const name = card.getAttribute('data-name');
-                const price = parseFloat(card.getAttribute('data-price'));
-
-                addToCartArray(id, name, price);
-            });
-        });
-
+        // Cart Actions
         function addToCartArray(id, name, price) {
             const existingItem = cart.find(item => item.id === id);
             if (existingItem) {
@@ -632,6 +720,7 @@
                 cart.push({ id, name, price, quantity: 1 });
             }
             updateCartUI();
+            openCartDrawer(); // Slide open cart to show confirmation item added
         }
 
         function removeCartItem(id) {
@@ -675,29 +764,24 @@
             const totalTextString = `Br${totalSum.toLocaleString()}.00 ETB`;
             cartTotalSum.innerText = totalTextString;
 
-            // Update parameters inside form fields
             document.getElementById('formOrderItems').value = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
             document.getElementById('formCartTotal').value = totalTextString;
         }
 
-        // Submitting order process workflow linked to Webform Server Endpoint
+        // Webform Submit Setup
         function handleSecureOrder(event) {
             event.preventDefault();
             
-            // Visual indicators
             submitBtn.innerText = "Sending...";
             submitBtn.style.opacity = "0.6";
             submitBtn.disabled = true;
 
             const formElement = document.getElementById('checkoutForm');
             const formData = new FormData(formElement);
-            
             const formObject = {};
             formData.forEach((value, key) => { formObject[key] = value; });
 
-            const WEBFORM_ENDPOINT = "https://api.web3forms.com/submit";
-
-            fetch(WEBFORM_ENDPOINT, {
+            fetch("https://api.web3forms.com/submit", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -713,11 +797,11 @@
                     updateCartUI();
                     closeCartDrawer();
                 } else {
-                    throw new Error('Form submission backend error response received');
+                    throw new Error('Submission backend error');
                 }
             })
             .catch(error => {
-                console.error('Routing Error:', error);
+                console.error('Error:', error);
                 alert('There was a problem processing your request. Please try again.');
             })
             .finally(() => {
@@ -726,6 +810,18 @@
                 submitBtn.disabled = false;
             });
         }
+
+        // Utilities Global Actions
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            const query = prompt("What flavor or product are you searching for?");
+            if(query) alert(`Searching store listings for: "${query}"`);
+        });
+        document.getElementById('profileBtn').addEventListener('click', () => {
+            alert("Customer account access is disabled on this demo profile.");
+        });
+
+        // Initialize App View Layout
+        renderCatalog();
     </script>
 </body>
 </html>
