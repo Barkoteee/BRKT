@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRKT</title>
+    <link rel="icon" type="image/png" href="BRKT.png">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            color: #111;
+            padding: 10px 16px;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* Header Custom Styling */
+        header {
+            max-width: 850px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5px 25px 5px;
+        }
+        
+        /* Playful Font Styling for BRKT */
+        .logo {
+            font-family: system-ui, "Fredoka One", "Comic Sans MS", cursive, sans-serif;
+            font-size: 38px; 
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #000000;
+            text-align: center;
+            cursor: pointer;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.04);
+            user-select: none;
+        }
+
+        @media (min-width: 480px) {
+            .logo {
+                font-size: 48px;
+            }
+        }
+        
+        .icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000000;
+            position: relative;
+            padding: 6px;
+        }
+
+        .icon-btn svg {
+            width: 26px;
+            height: 26px;
+            stroke: #000000;
+            stroke-width: 1.35; 
+            fill: none;
+        }
+
+        /* Cart Badge Count */
+        .cart-count {
+            position: absolute;
+            top: -2px;
+            right: -4px;
+            background: #000;
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: none; 
+        }
+
+        /* Responsive Adaptive Grid System */
+        .grid {
+            max-width: 850px;
+            width: 100%;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            padding-top: 5px;
+            padding-bottom: 60px;
+            flex: 1;
+        }
+
+        @media (max-width: 380px) {
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+        
+        .card {
+            background: #ffffff;
+            border: 1px solid #eaeaea;
+            border-radius: 18px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        @media (min-width: 480px) {
+            .card {
+                border-radius: 20px;
+                padding: 24px;
+            }
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+        }
+        
+        /* Auto-Fit Resolution Image Container */
+        .image-container {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            padding: 8px;
+        }
+
+        @media (min-width: 480px) {
+            .image-container {
+                margin-bottom: 22px;
+            }
+        }
+        
+        .bg-lime   { background-color: #f9fbf9; }
+        .bg-blue   { background-color: #f7faff; }
+        .bg-pink   { background-color: #fff8f9; }
+        .bg-orange { background-color: #fffbf5; }
+
+        .product-image {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+        
+        .info {
+            width: 100%;
+            text-align: left;
+            padding-left: 2px;
+        }
+        
+        .title {
+            font-size: 14px;
+            color: #222;
+            font-weight: 400;
+            margin-bottom: 4px;
+            letter-spacing: 0.1px;
+            line-height: 1.3;
+        }
+
+        @media (min-width: 480px) {
+            .title {
+                font-size: 16px;
+                margin-bottom: 6px;
+            }
+        }
+        
+        .price {
+            font-size: 15px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 12px;
+        }
+
+        @media (min-width: 480px) {
+            .price {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+        }
+
+        .add-btn {
+            width: 100%;
+            background: #000000;
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        @media (min-width: 480px) {
+            .add-btn {
+                font-size: 14px;
+            }
+        }
+
+        .add-btn:hover {
+            background: #333333;
+        }
+
+        /* Centered Image-Matched Footer System */
+        footer {
+            max-width: 850px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 10px 30px 10px;
+            border-top: 1px solid #f2f2f2;
+            text-align: center;
+            font-size: 13px;
+            color: #666666;
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            margin-top: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px 12px;
+        }
+
+        .footer-links a {
+            color: #666666;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #000000;
+        }
+
+        .footer-dot {
+            color: #cccccc;
+            user-select: none;
+        }
+
+        /* Slide-out Cart Panel Drawer */
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background: #ffffff;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-drawer.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .close-drawer {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f9f9f9;
+        }
+
+        .item-details h4 {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .item-details p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #ff3b30;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        /* Cart Footer Context System */
+        .cart-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            background: #fafafa;
+            padding-bottom: calc(20px + env(safe-area-inset-bottom));
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .checkout-form {
+            display: none; 
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkout-form label {
+            font-size: 13px;
+            color: #444;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .payment-badge {
+            font-size: 11px;
+            font-weight: 600;
+            color: #2e7d32;
+            background-color: #e8f5e9;
+            padding: 5px 10px;
+            border-radius: 6px;
+            align-self: flex-start;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .phone-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            background-color: #ffffff;
+            transition: border-color 0.2s;
+            -webkit-appearance: none;
+        }
+
+        .phone-input:focus {
+            border-color: #000;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .overlay-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay-bg.open {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="icon-btn" id="searchBtn" aria-label="Search">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="7.5"></circle>
+                <line x1="21" y1="21" x2="16.3" y2="16.3"></line>
+            </svg>
+        </button>
+        
+        <div class="logo" onclick="window.location.reload()">BRKT</div>
+        
+        <div class="icons">
+            <button class="icon-btn" id="profileBtn" aria-label="Profile">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="7" r="4"></circle>
+                    <path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path>
+                </svg>
+            </button>
+            
+            <button class="icon-btn" id="cartBtn" aria-label="Cart">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 8h14l1 12H4L5 8z"></path>
+                    <path d="M9 8V5a3 3 0 0 1 6 0v3"></path>
+                </svg>
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="grid">
+        
+        <div class="card" data-id="1" data-name="VOZOL 40K – Lime Green" data-price="4900">
+            <div class="image-container bg-lime">
+                <img src="neon.JPG" alt="VOZOL 40K - Lime Green" class="product-image" onerror="this.style.display='none'">
+            </div>
+            <div class="info">
+                <div class="title">VOZOL 40K – Lime Green</div>
+                <div class="price">Br4,900.00 ETB</div>
+                <button class="add-btn">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="card" data-id="2" data-name="VOZOL 40K – Purple" data-price="4900">
+            <div class="image-container bg-blue">
+                <img src="purple.JPG" alt="VOZOL 40K - Purple" class="product-image" onerror="this.style.display='none'">
+            </div>
+            <div class="info">
+                <div class="title">VOZOL 40K – Purple</div>
+                <div class="price">Br4,900.00 ETB</div>
+                <button class="add-btn">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="card" data-id="3" data-name="VOZOL 40K – Cherry Cola" data-price="4900">
+            <div class="image-container bg-pink">
+                <img src="cherry.JPG" alt="VOZOL 40K - Cherry Cola" class="product-image" onerror="this.style.display='none'">
+            </div>
+            <div class="info">
+                <div class="title">VOZOL 40K – Cherry Cola</div>
+                <div class="price">Br4,900.00 ETB</div>
+                <button class="add-btn">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="card" data-id="4" data-name="VOZOL 40K – V Bull" data-price="4900">
+            <div class="image-container bg-orange">
+                <img src="bull.JPG" alt="VOZOL 40K - V Bull" class="product-image" onerror="this.style.display='none'">
+            </div>
+            <div class="info">
+                <div class="title">VOZOL 40K – V Bull</div>
+                <div class="price">Br4,900.00 ETB</div>
+                <button class="add-btn">Add to Cart</button>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div>© 2026, BRKTshop <span class="footer-dot">·</div>
+        <div class="footer-links">
+            <a href="#" onclick="alert('Policy data summary.')">Privacy policy</a>
+            <span class="footer-dot">·</span>
+            <a href="#" onclick="alert('Policy data summary.')">Terms of service</a>
+            <span class="footer-dot">·</span>
+            <a href="#" onclick="alert('Policy data summary.')">Shipping policy</a>
+            <span class="footer-dot">·</span>
+            <a href="#" onclick="alert('Contact details modal.')">Contact information</a>
+        </div>
+    </footer>
+
+    <div class="overlay-bg" id="overlay"></div>
+
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-drawer" id="closeCart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItemsList">
+            <p style="color: #777; text-align: center; margin-top: 40px;" id="emptyMessage">Your cart is empty</p>
+        </div>
+        
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotalSum">Br0.00 ETB</span>
+            </div>
+            
+            <form class="checkout-form" id="checkoutForm" onsubmit="handleSecureOrder(event)">
+                <input type="hidden" name="access_key" value="a9749163-18f9-4ab1-ab15-51fba3267a4c">
+                <input type="hidden" name="Store_Source" value="BRKTshop">
+                
+                <div class="payment-badge">✓ Payment on delivery</div>
+                <label for="buyerPhone">Enter your number then we will contact you</label>
+                
+                <input type="hidden" id="formOrderItems" name="Ordered_Items">
+                <input type="hidden" id="formCartTotal" name="Total_Amount">
+                
+                <input type="tel" id="buyerPhone" name="Customer_Phone" class="phone-input" placeholder="Your Phone Number..." required pattern="[0-9]{9,14}">
+                <button type="submit" class="checkout-btn" id="submitBtn">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+
+        const cartDrawer = document.getElementById('cartDrawer');
+        const cartBtn = document.getElementById('cartBtn');
+        const closeCart = document.getElementById('closeCart');
+        const overlay = document.getElementById('overlay');
+        const cartCountBadge = document.getElementById('cartCount');
+        const cartItemsList = document.getElementById('cartItemsList');
+        const cartTotalSum = document.getElementById('cartTotalSum');
+        const emptyMessage = document.getElementById('emptyMessage');
+        const checkoutForm = document.getElementById('checkoutForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function openCartDrawer() {
+            cartDrawer.classList.add('open');
+            overlay.classList.add('open');
+        }
+
+        function closeCartDrawer() {
+            cartDrawer.classList.remove('open');
+            overlay.classList.remove('open');
+        }
+
+        cartBtn.addEventListener('click', openCartDrawer);
+        closeCart.addEventListener('click', closeCartDrawer);
+        overlay.addEventListener('click', closeCartDrawer);
+
+        // Header search mock functionality
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            const query = prompt("What flavor or product are you searching for?");
+            if(query) alert(`Searching store listings for: "${query}"`);
+        });
+        document.getElementById('profileBtn').addEventListener('click', () => {
+            alert("Customer account access is disabled on this demo profile.");
+        });
+
+        // Add to Cart workflow
+        const addButtons = document.querySelectorAll('.add-btn');
+        addButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const card = e.target.closest('.card');
+                const id = card.getAttribute('data-id');
+                const name = card.getAttribute('data-name');
+                const price = parseFloat(card.getAttribute('data-price'));
+
+                addToCartArray(id, name, price);
+            });
+        });
+
+        function addToCartArray(id, name, price) {
+            const existingItem = cart.find(item => item.id === id);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ id, name, price, quantity: 1 });
+            }
+            updateCartUI();
+        }
+
+        function removeCartItem(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (totalCount > 0) {
+                cartCountBadge.innerText = totalCount;
+                cartCountBadge.style.display = 'flex';
+                emptyMessage.style.display = 'none';
+                checkoutForm.style.display = 'flex'; 
+            } else {
+                cartCountBadge.style.display = 'none';
+                emptyMessage.style.display = 'block';
+                checkoutForm.style.display = 'none';  
+            }
+
+            cartItemsList.querySelectorAll('.cart-item').forEach(el => el.remove());
+
+            let totalSum = 0;
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                totalSum += itemTotal;
+
+                const itemRow = document.createElement('div');
+                itemRow.className = 'cart-item';
+                itemRow.innerHTML = `
+                    <div class="item-details">
+                        <h4>${item.name}</h4>
+                        <p>Br${item.price.toLocaleString()}.00 ETB x ${item.quantity}</p>
+                    </div>
+                    <button class="remove-item" onclick="removeCartItem('${item.id}')">Remove</button>
+                `;
+                cartItemsList.appendChild(itemRow);
+            });
+
+            const totalTextString = `Br${totalSum.toLocaleString()}.00 ETB`;
+            cartTotalSum.innerText = totalTextString;
+
+            // Update parameters inside form fields
+            document.getElementById('formOrderItems').value = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
+            document.getElementById('formCartTotal').value = totalTextString;
+        }
+
+        // Submitting order process workflow linked to Webform Server Endpoint
+        function handleSecureOrder(event) {
+            event.preventDefault();
+            
+            // Visual indicators
+            submitBtn.innerText = "Sending...";
+            submitBtn.style.opacity = "0.6";
+            submitBtn.disabled = true;
+
+            const formElement = document.getElementById('checkoutForm');
+            const formData = new FormData(formElement);
+            
+            const formObject = {};
+            formData.forEach((value, key) => { formObject[key] = value; });
+
+            const WEBFORM_ENDPOINT = "https://api.web3forms.com/submit";
+
+            fetch(WEBFORM_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formObject)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert(`Order sent successfully!\n\nWe will contact you at ${formObject['Customer_Phone']} to arrange delivery.`);
+                    cart = [];
+                    document.getElementById('buyerPhone').value = '';
+                    updateCartUI();
+                    closeCartDrawer();
+                } else {
+                    throw new Error('Form submission backend error response received');
+                }
+            })
+            .catch(error => {
+                console.error('Routing Error:', error);
+                alert('There was a problem processing your request. Please try again.');
+            })
+            .finally(() => {
+                submitBtn.innerText = "Send";
+                submitBtn.style.opacity = "1";
+                submitBtn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>

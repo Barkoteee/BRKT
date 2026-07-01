@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRKT Store</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+
+    <header class="max-w-4xl mx-auto px-6 py-6 flex items-center justify-between">
+        <button class="text-gray-700 hover:text-black cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z" />
+            </svg>
+        </button>
+
+        <h1 class="text-4xl font-light tracking-wide text-center uppercase" style="font-family: sans-serif;">
+            BRKT
+        </h1>
+
+        <div class="flex items-center space-x-6 text-gray-700">
+            <button class="hover:text-black cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                </svg>
+            </button>
+            <button class="hover:text-black cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.625.625 0 1 1-1.25 0 .625.625 0 0 1 1.25 0Zm7.5 0a.625.625 0 1 1-1.25 0 .625.625 0 0 1 1.25 0Z" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <hr class="border-gray-200 max-w-4xl mx-auto px-6 mb-8">
+
+    <main class="max-w-4xl mx-auto px-4 pb-12">
+        <div class="grid grid-cols-2 gap-4 sm:gap-6">
+            
+            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-xs flex flex-col items-center">
+                <div class="w-full aspect-square flex items-center justify-center mb-6">
+                    <img src="https://via.placeholder.com/300x400?text=VOZOL+Lime+Green" alt="VOZOL 20K - Lime Green" class="max-h-full object-contain">
+                </div>
+                <div class="w-full text-left pl-2">
+                    <h2 class="text-sm sm:text-base text-gray-800 font-normal">VOZOL 20K – Lime Green</h2>
+                    <p class="text-base sm:text-lg font-medium text-black mt-1">Br4,900.00 ETB</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-xs flex flex-col items-center">
+                <div class="w-full aspect-square flex items-center justify-center mb-6">
+                    <img src="https://via.placeholder.com/300x400?text=VOZOL+Sky+Blue" alt="VOZOL 20K - Sky Blue" class="max-h-full object-contain">
+                </div>
+                <div class="w-full text-left pl-2">
+                    <h2 class="text-sm sm:text-base text-gray-800 font-normal">VOZOL 20K – Sky Blue</h2>
+                    <p class="text-base sm:text-lg font-medium text-black mt-1">Br4,900.00 ETB</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-xs flex flex-col items-center">
+                <div class="w-full aspect-square flex items-center justify-center mb-6">
+                    <img src="https://via.placeholder.com/300x400?text=VOZOL+Sakura+Pink" alt="VOZOL 20K - Sakura Pink" class="max-h-full object-contain">
+                </div>
+                <div class="w-full text-left pl-2">
+                    <h2 class="text-sm sm:text-base text-gray-800 font-normal">VOZOL 20K – Sakura Pink</h2>
+                    <p class="text-base sm:text-lg font-medium text-black mt-1">Br4,900.00 ETB</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-xs flex flex-col items-center">
+                <div class="w-full aspect-square flex items-center justify-center mb-6">
+                    <img src="https://via.placeholder.com/300x400?text=VOZOL+Grape+Purple" alt="VOZOL 20K - Grape Purple" class="max-h-full object-contain">
+                </div>
+                <div class="w-full text-left pl-2">
+                    <h2 class="text-sm sm:text-base text-gray-800 font-normal">VOZOL 20K – Grape Purple</h2>
+                    <p class="text-base sm:text-lg font-medium text-black mt-1">Br4,900.00 ETB</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
