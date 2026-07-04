@@ -3,825 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BRKT</title>
-    <link rel="icon" type="image/png" href="BRKT.png">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #ffffff;
-            color: #111;
-            padding: 10px 16px;
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        
-        /* Header Custom Styling */
-        header {
-            max-width: 850px;
-            width: 100%;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 5px 25px 5px;
-        }
-        
-        .logo {
-            font-family: system-ui, "Fredoka One", "Comic Sans MS", cursive, sans-serif;
-            font-size: 38px; 
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            color: #000000;
-            text-align: center;
-            cursor: pointer;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.04);
-            user-select: none;
-        }
-
-        @media (min-width: 480px) {
-            .logo {
-                font-size: 48px;
-            }
-        }
-        
-        .icons {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-        
-        .icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000000;
-            position: relative;
-            padding: 6px;
-        }
-
-        .icon-btn svg {
-            width: 26px;
-            height: 26px;
-            stroke: #000000;
-            stroke-width: 1.35; 
-            fill: none;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -2px;
-            right: -4px;
-            background: #000;
-            color: #fff;
-            font-size: 10px;
-            font-weight: bold;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            display: none; 
-        }
-
-        /* View Router Management */
-        .view-section {
-            display: none;
-            max-width: 850px;
-            width: 100%;
-            margin: 0 auto;
-            flex: 1;
-        }
-        .view-section.active {
-            display: block;
-        }
-
-        /* Responsive Adaptive Grid System */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-auto-rows: minmax(min-content, max-content);
-            gap: 14px;
-            padding-top: 5px;
-            padding-bottom: 60px;
-        }
-
-        @media (max-width: 380px) {
-            .grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-        }
-        
-        .card {
-            background: #ffffff;
-            border: 1px solid #eaeaea;
-            border-radius: 18px;
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        @media (min-width: 480px) {
-            .card {
-                border-radius: 20px;
-                padding: 24px;
-            }
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
-        }
-        
-        .image-container {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 14px;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-            padding: 8px;
-            flex-shrink: 0;
-        }
-
-        @media (min-width: 480px) {
-            .image-container {
-                margin-bottom: 22px;
-            }
-        }
-        
-        .bg-lime   { background-color: #f9fbf9; }
-        .bg-blue   { background-color: #f7faff; }
-        .bg-pink   { background-color: #fff8f9; }
-        .bg-orange { background-color: #fffbf5; }
-
-        .product-image {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            border-radius: 6px;
-        }
-        
-        .info {
-            width: 100%;
-            text-align: left;
-            padding-left: 2px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-        
-        .title {
-            font-size: 14px;
-            color: #222;
-            font-weight: 500;
-            margin-bottom: 6px;
-            letter-spacing: 0.1px;
-            line-height: 1.3;
-        }
-
-        @media (min-width: 480px) {
-            .title {
-                font-size: 16px;
-            }
-        }
-        
-        .price {
-            font-size: 15px;
-            font-weight: 600;
-            color: #000;
-            margin-top: auto; 
-        }
-
-        @media (min-width: 480px) {
-            .price {
-                font-size: 17px;
-            }
-        }
-
-        /* Dedicated Product Page Layout */
-        .product-page-container {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            padding-bottom: 60px;
-        }
-
-        @media (min-width: 650px) {
-            .product-page-container {
-                flex-direction: row;
-                align-items: flex-start;
-                gap: 40px;
-                padding-top: 20px;
-            }
-            .product-page-container .image-container {
-                flex: 1;
-                max-width: 450px;
-                margin-bottom: 0;
-            }
-            .product-page-container .details-panel {
-                flex: 1;
-            }
-        }
-
-        .back-btn {
-            background: none;
-            border: none;
-            font-size: 14px;
-            font-weight: 500;
-            color: #666;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 20px;
-            padding: 4px 0;
-        }
-
-        .back-btn:hover {
-            color: #000;
-        }
-
-        .detail-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: #111;
-            margin-bottom: 10px;
-        }
-
-        .detail-price {
-            font-size: 20px;
-            font-weight: 600;
-            color: #000;
-            margin-bottom: 20px;
-        }
-
-        .detail-desc {
-            font-size: 14px;
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            border-top: 1px solid #eee;
-            padding-top: 16px;
-        }
-
-        .add-btn {
-            width: 100%;
-            max-width: 300px;
-            background: #000000;
-            color: #ffffff;
-            border: none;
-            padding: 14px;
-            font-size: 14px;
-            font-weight: 500;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .add-btn:hover {
-            background: #333333;
-        }
-
-        /* Centered Image-Matched Footer System */
-        footer {
-            max-width: 850px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 40px 10px 30px 10px;
-            border-top: 1px solid #f2f2f2;
-            text-align: center;
-            font-size: 13px;
-            color: #666666;
-            line-height: 1.8;
-        }
-
-        .footer-links {
-            margin-top: 6px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 4px 12px;
-        }
-
-        .footer-links a {
-            color: #666666;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .footer-links a:hover {
-            color: #000000;
-        }
-
-        .footer-dot {
-            color: #cccccc;
-            user-select: none;
-        }
-
-        /* Slide-out Cart Panel Drawer */
-        .cart-drawer {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 100%;
-            max-width: 400px;
-            height: 100%;
-            background: #ffffff;
-            box-shadow: -5px 0 25px rgba(0,0,0,0.1);
-            z-index: 1000;
-            transition: right 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .cart-drawer.open {
-            right: 0;
-        }
-
-        .cart-header {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .cart-header h2 {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .close-drawer {
-            background: none;
-            border: none;
-            font-size: 28px;
-            cursor: pointer;
-            padding: 4px;
-            line-height: 1;
-        }
-
-        .cart-items {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid #f9f9f9;
-        }
-
-        .item-details h4 {
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 2px;
-        }
-
-        .item-details p {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .remove-item {
-            background: none;
-            border: none;
-            color: #ff3b30;
-            font-size: 12px;
-            cursor: pointer;
-            padding: 4px;
-        }
-
-        .cart-footer {
-            padding: 20px;
-            border-top: 1px solid #eee;
-            background: #fafafa;
-            padding-bottom: calc(20px + env(safe-area-inset-bottom));
-        }
-
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-
-        .checkout-form {
-            display: none; 
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .checkout-form label {
-            font-size: 13px;
-            color: #444;
-            font-weight: 500;
-            line-height: 1.4;
-        }
-
-        .payment-badge {
-            font-size: 11px;
-            font-weight: 600;
-            color: #2e7d32;
-            background-color: #e8f5e9;
-            padding: 5px 10px;
-            border-radius: 6px;
-            align-self: flex-start;
-            margin-bottom: 2px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .phone-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            font-size: 14px;
-            outline: none;
-            background-color: #ffffff;
-            transition: border-color 0.2s;
-            -webkit-appearance: none;
-        }
-
-        .phone-input:focus {
-            border-color: #000;
-        }
-
-        .checkout-btn {
-            width: 100%;
-            background: #000;
-            color: #fff;
-            border: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .overlay-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.3);
-            z-index: 999;
-            display: none;
-        }
-
-        .overlay-bg.open {
-            display: block;
-        }
-    </style>
+    <title>Barkot Studio</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <button class="icon-btn" id="searchBtn" aria-label="Search">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="7.5"></circle>
-                <line x1="21" y1="21" x2="16.3" y2="16.3"></line>
-            </svg>
-        </button>
-        
-        <div class="logo" id="logoHome">BRKT</div>
-        
-        <div class="icons">
-            <button class="icon-btn" id="profileBtn" aria-label="Profile">
-                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="7" r="4"></circle>
-                    <path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path>
-                </svg>
-            </button>
-            
-            <button class="icon-btn" id="cartBtn" aria-label="Cart">
-                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 8h14l1 12H4L5 8z"></path>
-                    <path d="M9 8V5a3 3 0 0 1 6 0v3"></path>
-                </svg>
-                <span class="cart-count" id="cartCount">0</span>
-            </button>
+    <nav>
+        <div class="container nav-container">
+            <a href="#home" class="logo">Barkot Studio<span>.</span></a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#services">Capabilities</a></li>
+                <li><a href="#process">Strategy</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </div>
-    </header>
+    </nav>
 
-    <main class="view-section active" id="catalogView">
-        <div class="grid" id="productGrid"></div>
+    <main class="container">
+        
+        <section id="home">
+            <div class="hero-editorial">
+                <div class="hero-text-block">
+                    <h1>We build your business card.</h1>
+                    <p>Premium layouts for high-end local spaces.</p>
+                    <div class="btn-group">
+                        <a href="#portfolio" class="btn-editorial btn-dark">View Portfolio</a>
+                        <a href="#contact" class="btn-editorial btn-outline">Start Project</a>
+                    </div>
+                </div>
+                <div class="hero-frame">
+                    <div class="hero-card-asset">
+                        <div class="brand-title">BARKOT STUDIO</div>
+                        <div class="brand-sub">Identity Systems // 2024</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="section-header-editorial">
+                <h2>our studio</h2>
+                <p>We replace boilerplate internet layouts with luxury, intention-driven identity architectures.</p>
+            </div>
+            <div class="about-studio-grid">
+                <div class="philosophy-text">
+                    <h3>Design Philosophy</h3>
+                    <p>A business card shouldn't feel like an afterthought. It is a tangible extension of your corporate footprint. We craft bespoke visual ecosystems focused on balance, typography hierarchies, and tactile balance to help you attract premium customer bases.</p>
+                    <h3>Target Arenas</h3>
+                    <p>We work exclusively with boutique service operators looking to elevate their local authority—ranging from cosmetic curators and specialty barbershops to artisanal cafés and concept storefronts.</p>
+                </div>
+                <div class="stats-editorial-box">
+                    <div class="stat-item">
+                        <div class="num">100%</div>
+                        <div class="label">Bespoke Layout Systems</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="num">00</div>
+                        <div class="label">Pre-made Design Templates</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio">
+            <div class="section-header-editorial">
+                <h2>selected work</h2>
+                <p>An interactive catalog highlighting custom print and brand configurations across local markets.</p>
+            </div>
+            <div class="portfolio-gallery-grid">
+                <a href="#contact" class="work-card">
+                    <div class="work-canvas">
+                        <img src="sofi.png" alt="Sofi Cosmetics Business Card Design" class="portfolio-img">
+                    </div>
+                    <div class="work-title-block">
+                        <h3>Sofi Cosmetics</h3>
+                        <p>Cosmetics Shop</p>
+                    </div>
+                </a>
+                <a href="#contact" class="work-card">
+                    <div class="work-canvas">
+                        <img src="addis.png" alt="Addis Repairs Business Card Design" class="portfolio-img">
+                    </div>
+                    <div class="work-title-block">
+                        <h3>Addis Repairs</h3>
+                        <p>Tech Help System</p>
+                    </div>
+                </a>
+                <a href="#contact" class="work-card">
+                    <div class="work-canvas">
+                        <img src="adik.png" alt="Adik Car Sell Business Card Design" class="portfolio-img">
+                    </div>
+                    <div class="work-title-block">
+                        <h3>Adik Car Sell</h3>
+                        <p>Car dealership</p>
+                    </div>
+                </a>
+                <a href="#contact" class="work-card">
+                    <div class="work-canvas">
+                        <img src="Barkot.png" alt="Barkot Studio Business Card Design" class="portfolio-img">
+                    </div>
+                    <div class="work-title-block">
+                        <h3>Barkot Studio</h3>
+                        <p>Visual Systems</p>
+                    </div>
+                </a>
+                </a>
+                <a href="#contact" class="work-card">
+                    <div class="work-canvas">
+                        <img src="Blue.png" alt="Blueledger Business Card Design" class="portfolio-img">
+                    </div>
+                    <div class="work-title-block">
+                        <h3>Blueledger</h3>
+                        <p>Financial Services</p>
+                    </div>
+                </a>
+                <a href="#contact" class="work-card">
+                    <div class="work-canvas">
+                        <img src="koof.png" alt="Koof Keet Card Design" class="portfolio-img">
+                    </div>
+                    <div class="work-title-block">
+                        <h3>Koof Keet</h3>
+                        <p>Furniture Store</p>
+                    </div>
+                </a>
+                <a href="#contact" class="work-card">
+                    <div class="work-canvas">
+                        <img src="lily.png" alt="Lily Perfumes" class="portfolio-img">
+                    </div>
+                    <div class="work-title-block">
+                        <h3>Lily Perfumes</h3>
+                        <p>Perfume Retail</p>
+                    </div>
+                </a>
+                <a href="#contact" class="work-card">
+                    <div class="work-canvas">
+                        <img src="dk.png" alt="Adik Car Market" class="portfolio-img">
+                    </div>
+                    <div class="work-title-block">
+                        <h3>Adik Car Market</h3>
+                        <p>Automotive Sales</p>
+                    </div>
+                <a href="#contact" class="work-card">
+                    <div class="work-canvas">
+                        <img src="BCP.png" alt="Price Package" class="portfolio-img">
+                    </div>
+                    <div class="work-title-block">
+                        <h3>Price Package</h3>
+                        <p>Design + Print</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="services">
+            <div class="section-header-editorial">
+                <h2>capabilities</h2>
+                <p>Strategic graphic engineering crafted to secure premium marketplace authority.</p>
+            </div>
+            <div class="capabilities-list-grid">
+                <div class="capability-row">
+                    <span class="capability-num">01 //</span>
+                    <div class="capability-content">
+                        <h3>Business Cards</h3>
+                        <p>High-end layout geometry designed explicitly around complex print processes, luxury texturing, and custom sheet stocks.</p>
+                    </div>
+                </div>
+                <div class="capability-row">
+                    <span class="capability-num">02 //</span>
+                    <div class="capability-content">
+                        <h3>Logo Refinement</h3>
+                        <p>Re-shaping and vectorizing legacy brand designs into modern, perfectly weighted typographic signatures.</p>
+                    </div>
+                </div>
+                <div class="capability-row">
+                    <span class="capability-num">03 //</span>
+                    <div class="capability-content">
+                        <h3>QR Integration</h3>
+                        <p>Elegant layout structures that display direct scannable assets safely without interrupting card aesthetics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="process">
+            <div class="section-header-editorial">
+                <h2>execution strategy</h2>
+                <p>Our precise four-phase structural methodology designed to protect aesthetic quality.</p>
+            </div>
+            <div class="process-row-flow">
+                <div class="step-module">
+                    <div class="step-meta">Phase One</div>
+                    <h3>Discovery</h3>
+                    <p>Analyzing physical floor footprints, target client personas, and regional workspace parameters.</p>
+                </div>
+                <div class="step-module">
+                    <div class="step-meta">Phase Two</div>
+                    <h3>Concept</h3>
+                    <p>Drafting custom font adjustments, weight scales, and clean composition alternatives.</p>
+                </div>
+                <div class="step-module">
+                    <div class="step-meta">Phase Three</div>
+                    <h3>Revision</h3>
+                    <p>Collaborating over tight formatting fine-tuning to reach compositional perfection.</p>
+                </div>
+                <div class="step-module">
+                    <div class="step-meta">Phase Four</div>
+                    <h3>Delivery</h3>
+                    <p>Deploying production-ready, highly technical graphics ready for premium commercial printers.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="contact-split-view">
+                <div class="contact-editorial-info">
+                    <h2>let's shape your business presence.</h2>
+                    <p>Connect with our creative office to bring your physical brand architecture up to your operational standards.</p>
+                    <div class="editorial-links-stack">
+                        <a href="mailto:barkotteketel943@gmail.com" class="btn-editorial btn-dark">Email Us</a>
+                        <a href="https://www.instagram.com/___barkot?igsh=dGtvcTFodThkcTdo&utm_source=qr" class="btn-editorial btn-outline" target="_blank">Instagram</a>
+                        <a href="https://t.me/BarkotR" class="btn-editorial btn-outline" target="_blank">Telegram</a>
+                        <a href="tel:+251941583795" class="btn-editorial btn-outline">Call Now</a>
+                    </div>
+                </div>
+                <div class="contact-form-container">
+                    <form class="editorial-form" action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="a9749163-18f9-4ab1-ab15-51fba3267a4c">
+                        <input type="hidden" name="from_name" value="Barkot Studio Leads">
+                        <input type="hidden" name="subject" value="New Creative Project Brief Received">
+                        <input type="hidden" name="redirect" value="https://barkoteee.github.io/Business-Card-Service/#contact">
+
+                        <div class="input-wrapper">
+                            <label for="biz-name">Business Name</label>
+                            <input type="text" id="biz-name" name="Business Name" class="field-input" placeholder="e.g., Aura Boutique" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="biz-email">Email Address</label>
+                            <input type="email" id="biz-email" name="Email Address" class="field-input" placeholder="name@domain.com" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="biz-sector">Industry Vertical</label>
+                            <input type="text" id="biz-sector" name="Industry Vertical" class="field-input" placeholder="e.g., Specialty Coffee" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="biz-plan">Project Brief</label>
+                            <textarea id="biz-plan" name="Project Brief" class="field-input" placeholder="Describe your creative objectives..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-editorial btn-dark submit-btn">Submit Brief</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <section class="view-section" id="detailsView">
-        <button class="back-btn" id="backToShopBtn">← Back to Shop</button>
-        <div class="product-page-container" id="productPageContent"></div>
-    </section>
-
     <footer>
-        <div>© 2026, BRKTshop <span class="footer-dot">·</span></div>
-        <div class="footer-links">
-            <a href="#" onclick="alert('Privacy policy summary.')">Privacy policy</a>
-            <span class="footer-dot">·</span>
-            <a href="#" onclick="alert('Terms of service summary.')">Terms of service</a>
-            <span class="footer-dot">·</span>
-            <a href="#" onclick="alert('Shipping policy summary.')">Shipping policy</a>
-            <span class="footer-dot">·</span>
-            <a href="#" onclick="alert('Contact details modal.')">Contact information</a>
+        <div class="container footer-flex">
+            <a href="#home" class="logo">Barkot Studio<span>.</span></a>
+            <p>&copy; 2026 Barkot Studio. Crafted with absolute minimal intent.</p>
         </div>
     </footer>
 
-    <div class="overlay-bg" id="overlay"></div>
-
-    <div class="cart-drawer" id="cartDrawer">
-        <div class="cart-header">
-            <h2>Your Cart</h2>
-            <button class="close-drawer" id="closeCart">&times;</button>
-        </div>
-        <div class="cart-items" id="cartItemsList">
-            <p style="color: #777; text-align: center; margin-top: 40px;" id="emptyMessage">Your cart is empty</p>
-        </div>
-        
-        <div class="cart-footer">
-            <div class="cart-total">
-                <span>Total:</span>
-                <span id="cartTotalSum">Br0.00 ETB</span>
-            </div>
-            
-            <form class="checkout-form" id="checkoutForm" onsubmit="handleSecureOrder(event)">
-                <input type="hidden" name="access_key" value="a9749163-18f9-4ab1-ab15-51fba3267a4c">
-                <input type="hidden" name="Store_Source" value="BRKTshop">
-                
-                <div class="payment-badge">✓ Payment on delivery</div>
-                <label for="buyerPhone">Enter your number then we will contact you</label>
-                
-                <input type="hidden" id="formOrderItems" name="Ordered_Items">
-                <input type="hidden" id="formCartTotal" name="Total_Amount">
-                
-                <input type="tel" id="buyerPhone" name="Customer_Phone" class="phone-input" placeholder="Your Phone Number..." required pattern="[0-9]{9,14}">
-                <button type="submit" class="checkout-btn" id="submitBtn">Send</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // Data Store Setup
-        const products = [
-            {
-                id: "1",
-                name: "VOZOL 40K – Lime Green",
-                price: 4900,
-                bgClass: "bg-lime",
-                imgSrc: "neon.JPG",
-                desc: "Crisp zesty key-lime profiles paired with a refreshing chilling finish. Features a smart digital counter display, dual mesh coils, and an ergonomic mouthpiece engineered for flavor precision."
-            },
-            {
-                id: "2",
-                name: "VOZOL 40K – Purple",
-                price: 4900,
-                bgClass: "bg-blue",
-                imgSrc: "purple.JPG",
-                desc: "Deep rich mountain grape blends featuring an icy splash. Long-lasting, high-capacity mesh coil experience designed to sustain optimal vapor rendering from first charge to last drop."
-            },
-            {
-                id: "3",
-                name: "VOZOL 40K – Cherry Cola",
-                price: 4900,
-                bgClass: "bg-pink",
-                imgSrc: "cherry.JPG",
-                desc: "Classic bubbly soda fountain nostalgia struck by sweet black cherries. Perfect balance of sweet and tangy textures combined with advanced smart sensory control dynamics."
-            },
-            {
-                id: "4",
-                name: "VOZOL 40K – V Bull",
-                price: 4900,
-                bgClass: "bg-orange",
-                imgSrc: "bull.JPG",
-                desc: "Electric, carbonated energy drink boost flavor profile engineered to satisfy. Bright, dynamic punch tailored precisely for long sessions with zero output degradation."
-            }
-        ];
-
-        let cart = [];
-
-        // UI Target Elements
-        const catalogView = document.getElementById('catalogView');
-        const detailsView = document.getElementById('detailsView');
-        const productGrid = document.getElementById('productGrid');
-        const productPageContent = document.getElementById('productPageContent');
-        
-        const cartDrawer = document.getElementById('cartDrawer');
-        const cartBtn = document.getElementById('cartBtn');
-        const closeCart = document.getElementById('closeCart');
-        const overlay = document.getElementById('overlay');
-        const cartCountBadge = document.getElementById('cartCount');
-        const cartItemsList = document.getElementById('cartItemsList');
-        const cartTotalSum = document.getElementById('cartTotalSum');
-        const emptyMessage = document.getElementById('emptyMessage');
-        const checkoutForm = document.getElementById('checkoutForm');
-        const submitBtn = document.getElementById('submitBtn');
-
-        // Draw Catalog Grid dynamically
-        function renderCatalog() {
-            productGrid.innerHTML = '';
-            products.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div class="image-container ${product.bgClass}">
-                        <img src="${product.imgSrc}" alt="${product.name}" class="product-image" onerror="this.style.display='none'">
-                    </div>
-                    <div class="info">
-                        <div class="title">${product.name}</div>
-                        <div class="price">Br${product.price.toLocaleString()}.00 ETB</div>
-                    </div>
-                `;
-                card.addEventListener('click', () => showProductDetails(product.id));
-                productGrid.appendChild(card);
-            });
-        }
-
-        // Display Detailed Page View
-        function showProductDetails(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-
-            productPageContent.innerHTML = `
-                <div class="image-container ${product.bgClass}">
-                    <img src="${product.imgSrc}" alt="${product.name}" class="product-image" onerror="this.style.display='none'">
-                </div>
-                <div class="details-panel">
-                    <h1 class="detail-title">${product.name}</h1>
-                    <div class="detail-price">Br${product.price.toLocaleString()}.00 ETB</div>
-                    <p class="detail-desc">${product.desc}</p>
-                    <button class="add-btn" onclick="addToCartArray('${product.id}', '${product.name}', ${product.price})">Add to Cart</button>
-                </div>
-            `;
-
-            catalogView.classList.remove('active');
-            detailsView.classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // View Routing Controls
-        function showCatalogView() {
-            detailsView.classList.remove('active');
-            catalogView.classList.add('active');
-        }
-
-        document.getElementById('backToShopBtn').addEventListener('click', showCatalogView);
-        document.getElementById('logoHome').addEventListener('click', showCatalogView);
-
-        // Drawer Controls
-        function openCartDrawer() {
-            cartDrawer.classList.add('open');
-            overlay.classList.add('open');
-        }
-
-        function closeCartDrawer() {
-            cartDrawer.classList.remove('open');
-            overlay.classList.remove('open');
-        }
-
-        cartBtn.addEventListener('click', openCartDrawer);
-        closeCart.addEventListener('click', closeCartDrawer);
-        overlay.addEventListener('click', closeCartDrawer);
-
-        // Cart Actions
-        function addToCartArray(id, name, price) {
-            const existingItem = cart.find(item => item.id === id);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ id, name, price, quantity: 1 });
-            }
-            updateCartUI();
-            // openCartDrawer(); <- REMOVED to stop the checkout drawer popup
-        }
-
-        function removeCartItem(id) {
-            cart = cart.filter(item => item.id !== id);
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-            
-            if (totalCount > 0) {
-                cartCountBadge.innerText = totalCount;
-                cartCountBadge.style.display = 'flex';
-                emptyMessage.style.display = 'none';
-                checkoutForm.style.display = 'flex'; 
-            } else {
-                cartCountBadge.style.display = 'none';
-                emptyMessage.style.display = 'block';
-                checkoutForm.style.display = 'none';  
-            }
-
-            cartItemsList.querySelectorAll('.cart-item').forEach(el => el.remove());
-
-            let totalSum = 0;
-            cart.forEach(item => {
-                const itemTotal = item.price * item.quantity;
-                totalSum += itemTotal;
-
-                const itemRow = document.createElement('div');
-                itemRow.className = 'cart-item';
-                itemRow.innerHTML = `
-                    <div class="item-details">
-                        <h4>${item.name}</h4>
-                        <p>Br${item.price.toLocaleString()}.00 ETB x ${item.quantity}</p>
-                    </div>
-                    <button class="remove-item" onclick="removeCartItem('${item.id}')">Remove</button>
-                `;
-                cartItemsList.appendChild(itemRow);
-            });
-
-            const totalTextString = `Br${totalSum.toLocaleString()}.00 ETB`;
-            cartTotalSum.innerText = totalTextString;
-
-            document.getElementById('formOrderItems').value = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
-            document.getElementById('formCartTotal').value = totalTextString;
-        }
-
-        // Webform Submit Setup
-        function handleSecureOrder(event) {
-            event.preventDefault();
-            
-            submitBtn.innerText = "Sending...";
-            submitBtn.style.opacity = "0.6";
-            submitBtn.disabled = true;
-
-            const formElement = document.getElementById('checkoutForm');
-            const formData = new FormData(formElement);
-            const formObject = {};
-            formData.forEach((value, key) => { formObject[key] = value; });
-
-            fetch("https://api.web3forms.com/submit", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(formObject)
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert(`Order sent successfully!\n\nWe will contact you at ${formObject['Customer_Phone']} to arrange delivery.`);
-                    cart = [];
-                    document.getElementById('buyerPhone').value = '';
-                    updateCartUI();
-                    closeCartDrawer();
-                } else {
-                    throw new Error('Submission backend error');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('There was a problem processing your request. Please try again.');
-            })
-            .finally(() => {
-                submitBtn.innerText = "Send";
-                submitBtn.style.opacity = "1";
-                submitBtn.disabled = false;
-            });
-        }
-
-        // Utilities Global Actions
-        document.getElementById('searchBtn').addEventListener('click', () => {
-            const query = prompt("What flavor or product are you searching for?");
-            if(query) alert(`Searching store listings for: "${query}"`);
-        });
-        document.getElementById('profileBtn').addEventListener('click', () => {
-            alert("Customer account access is disabled on this demo profile.");
-        });
-
-        // Initialize App View Layout
-        renderCatalog();
-    </script>
 </body>
 </html>
