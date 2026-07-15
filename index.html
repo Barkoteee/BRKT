@@ -107,7 +107,7 @@
             display: block;
         }
 
-        /* Responsive Adaptive Grid System */
+        /* Responsive Grid System */
         .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -149,9 +149,10 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.03);
         }
         
+        /* Fixed Aspect Ratio Container */
         .image-container {
             width: 100%;
-            aspect-ratio: 1 / 1;
+            aspect-ratio: 3 / 4; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -159,7 +160,7 @@
             border-radius: 12px;
             position: relative;
             overflow: hidden;
-            padding: 8px;
+            padding: 0; 
             flex-shrink: 0;
         }
 
@@ -175,12 +176,12 @@
         .bg-orange { background-color: #fffbf5; }
 
         .product-image {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            border-radius: 6px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            object-position: center;
+            border-radius: 12px;
+            display: block;
         }
         
         .info {
@@ -190,6 +191,7 @@
             display: flex;
             flex-direction: column;
             flex-grow: 1;
+            position: relative;
         }
         
         .title {
@@ -199,11 +201,13 @@
             margin-bottom: 6px;
             letter-spacing: 0.1px;
             line-height: 1.3;
+            padding-right: 36px;
         }
 
         @media (min-width: 480px) {
             .title {
                 font-size: 16px;
+                padding-right: 44px;
             }
         }
         
@@ -217,6 +221,50 @@
         @media (min-width: 480px) {
             .price {
                 font-size: 17px;
+            }
+        }
+
+        /* Direct Add To Cart Circular Button on Grid Cards */
+        .grid-add-btn {
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #000000;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .grid-add-btn:hover {
+            background: #333333;
+            transform: scale(1.08);
+        }
+
+        .grid-add-btn:active {
+            transform: scale(0.95);
+        }
+
+        .grid-add-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: #ffffff;
+        }
+
+        @media (min-width: 480px) {
+            .grid-add-btn {
+                width: 40px;
+                height: 40px;
+                bottom: -4px;
+            }
+            .grid-add-btn svg {
+                width: 16px;
+                height: 16px;
             }
         }
 
@@ -304,7 +352,7 @@
             background: #333333;
         }
 
-        /* Centered Image-Matched Footer System */
+        /* Footer System */
         footer {
             max-width: 850px;
             width: 100%;
@@ -340,7 +388,7 @@
             user-select: none;
         }
 
-        /* Slide-out Cart Panel Drawer */
+        /* Slide-out Cart Drawer */
         .cart-drawer {
             position: fixed;
             top: 0;
@@ -432,52 +480,17 @@
             margin-bottom: 16px;
         }
 
-        .checkout-form {
-            display: none; 
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .checkout-form label {
-            font-size: 13px;
-            color: #444;
-            font-weight: 500;
-            line-height: 1.4;
-        }
-
-        .payment-badge {
-            font-size: 11px;
-            font-weight: 600;
-            color: #2e7d32;
-            background-color: #e8f5e9;
-            padding: 5px 10px;
-            border-radius: 6px;
-            align-self: flex-start;
-            margin-bottom: 2px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .phone-input {
+        /* Order button container styling */
+        .telegram-link-wrapper {
+            display: none; /* Controlled dynamically by JavaScript */
+            text-decoration: none;
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            font-size: 14px;
-            outline: none;
-            background-color: #ffffff;
-            transition: border-color 0.2s;
-            -webkit-appearance: none;
         }
 
-        .phone-input:focus {
-            border-color: #000;
-        }
-
-        .checkout-btn {
+        .telegram-btn {
             width: 100%;
-            background: #000;
-            color: #fff;
+            background: #24A1DE; 
+            color: #ffffff;
             border: none;
             padding: 14px;
             border-radius: 10px;
@@ -486,6 +499,25 @@
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .telegram-btn:hover {
+            background: #1e87bb;
+        }
+
+        .telegram-btn:active {
+            transform: scale(0.98);
+        }
+
+        .telegram-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: #ffffff;
         }
 
         .overlay-bg {
@@ -573,56 +605,55 @@
                 <span id="cartTotalSum">Br0.00 ETB</span>
             </div>
             
-            <form class="checkout-form" id="checkoutForm" onsubmit="handleSecureOrder(event)">
-                <input type="hidden" name="access_key" value="a9749163-18f9-4ab1-ab15-51fba3267a4c">
-                <input type="hidden" name="Store_Source" value="BRKTshop">
-                
-                <div class="payment-badge">✓ Payment on delivery</div>
-                <label for="buyerPhone">Enter your number then we will contact you</label>
-                
-                <input type="hidden" id="formOrderItems" name="Ordered_Items">
-                <input type="hidden" id="formCartTotal" name="Total_Amount">
-                
-                <input type="tel" id="buyerPhone" name="Customer_Phone" class="phone-input" placeholder="Your Phone Number..." required pattern="[0-9]{9,14}">
-                <button type="submit" class="checkout-btn" id="submitBtn">Send</button>
-            </form>
+            <!-- FIXED: Direct Anchor element with stylized inner div to prevent reloads -->
+            <a href="#" target="_blank" class="telegram-link-wrapper" id="telegramLink">
+                <div class="telegram-btn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.95 1.23-5.51 3.63-.52.36-.99.53-1.41.52-.46-.01-1.35-.26-2.01-.48-.81-.27-1.45-.42-1.39-.88.03-.24.37-.48 1.03-.74 4.04-1.76 6.74-2.92 8.1-3.48 3.84-1.6 4.64-1.88 5.16-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.19z"/>
+                    </svg>
+                    Order on Telegram
+                </div>
+            </a>
         </div>
     </div>
 
     <script>
+        // CONFIG: Your shop's actual Telegram username
+        const TELEGRAM_USERNAME = "BarkotR"; 
+
         // Data Store Setup
         const products = [
             {
                 id: "1",
-                name: "VOZOL 40K – Lime Green",
-                price: 4900,
+                name: " Baccarat Rouge 540 ",
+                price: 950,
                 bgClass: "bg-lime",
-                imgSrc: "neon.JPG",
-                desc: "Crisp zesty key-lime profiles paired with a refreshing chilling finish. Features a smart digital counter display, dual mesh coils, and an ergonomic mouthpiece engineered for flavor precision."
+                imgSrc: "bakarat.png",
+                desc: "Experience a fragrance that blends elegance with lasting sophistication. Baccarat Rouge 540 opens with luminous saffron and jasmine, leading into warm amberwood and ambergris before settling into a rich cedar and resinous finish."
             },
             {
                 id: "2",
-                name: "VOZOL 40K – Purple",
-                price: 4900,
+                name: "Qaed Al Fursan ",
+                price: 950,
                 bgClass: "bg-blue",
-                imgSrc: "purple.JPG",
-                desc: "Deep rich mountain grape blends featuring an icy splash. Long-lasting, high-capacity mesh coil experience designed to sustain optimal vapor rendering from first charge to last drop."
+                imgSrc: "Qaed.png",
+                desc: "Discover a bold fragrance that perfectly balances juicy tropical fruit with rich woody accords. Qaed Al Fursan opens with vibrant pineapple before revealing warm spices and settling into a smooth blend of oud, amber, cedarwood, and musk."
             },
             {
                 id: "3",
-                name: "VOZOL 40K – Cherry Cola",
-                price: 4900,
+                name: "Rave Now ",
+                price: 950,
                 bgClass: "bg-pink",
-                imgSrc: "cherry.JPG",
-                desc: "Classic bubbly soda fountain nostalgia struck by sweet black cherries. Perfect balance of sweet and tangy textures combined with advanced smart sensory control dynamics."
+                imgSrc: "now.png",
+                desc: "Make a lasting impression with Rave Now, a vibrant fragrance that blends juicy pineapple with warm woody notes for a bold and confident scent."
             },
             {
                 id: "4",
-                name: "VOZOL 40K – V Bull",
-                price: 4900,
+                name: "Stronger With You ",
+                price: 950,
                 bgClass: "bg-orange",
-                imgSrc: "bull.JPG",
-                desc: "Electric, carbonated energy drink boost flavor profile engineered to satisfy. Bright, dynamic punch tailored precisely for long sessions with zero output degradation."
+                imgSrc: "swy.png",
+                desc: "Warm, sweet, and irresistibly masculine. Stronger With You Intensely opens with spicy pink pepper and cardamom, blends into rich toffee and cinnamon, and finishes with smooth vanilla, amber, and tonka bean."
             }
         ];
 
@@ -642,8 +673,7 @@
         const cartItemsList = document.getElementById('cartItemsList');
         const cartTotalSum = document.getElementById('cartTotalSum');
         const emptyMessage = document.getElementById('emptyMessage');
-        const checkoutForm = document.getElementById('checkoutForm');
-        const submitBtn = document.getElementById('submitBtn');
+        const telegramLink = document.getElementById('telegramLink');
 
         // Draw Catalog Grid dynamically
         function renderCatalog() {
@@ -658,9 +688,27 @@
                     <div class="info">
                         <div class="title">${product.name}</div>
                         <div class="price">Br${product.price.toLocaleString()}.00 ETB</div>
+                        <button class="grid-add-btn" aria-label="Add to cart" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="#ffffff"/>
+                            </svg>
+                        </button>
                     </div>
                 `;
+                
+                // Card click navigation
                 card.addEventListener('click', () => showProductDetails(product.id));
+
+                // Cart quick-add click handler
+                const addBtn = card.querySelector('.grid-add-btn');
+                addBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = addBtn.getAttribute('data-id');
+                    const name = addBtn.getAttribute('data-name');
+                    const price = parseFloat(addBtn.getAttribute('data-price'));
+                    addToCartArray(id, name, price);
+                });
+
                 productGrid.appendChild(card);
             });
         }
@@ -711,7 +759,7 @@
         closeCart.addEventListener('click', closeCartDrawer);
         overlay.addEventListener('click', closeCartDrawer);
 
-        // Cart Actions
+        // Add to Cart
         function addToCartArray(id, name, price) {
             const existingItem = cart.find(item => item.id === id);
             if (existingItem) {
@@ -720,14 +768,15 @@
                 cart.push({ id, name, price, quantity: 1 });
             }
             updateCartUI();
-            // openCartDrawer(); <- REMOVED to stop the checkout drawer popup
         }
 
+        // Remove item from UI
         function removeCartItem(id) {
             cart = cart.filter(item => item.id !== id);
             updateCartUI();
         }
 
+        // Dynamic Cart updates & Dynamic Link generation
         function updateCartUI() {
             const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
             
@@ -735,20 +784,24 @@
                 cartCountBadge.innerText = totalCount;
                 cartCountBadge.style.display = 'flex';
                 emptyMessage.style.display = 'none';
-                checkoutForm.style.display = 'flex'; 
+                telegramLink.style.display = 'block'; 
             } else {
                 cartCountBadge.style.display = 'none';
                 emptyMessage.style.display = 'block';
-                checkoutForm.style.display = 'none';  
+                telegramLink.style.display = 'none';  
             }
 
+            // Reset Item rows
             cartItemsList.querySelectorAll('.cart-item').forEach(el => el.remove());
 
             let totalSum = 0;
+            let orderMessage = `🔔 *New Order from BRKTshop* 🔔\n\n`;
+
             cart.forEach(item => {
                 const itemTotal = item.price * item.quantity;
                 totalSum += itemTotal;
 
+                // Add to visible cart drawer list
                 const itemRow = document.createElement('div');
                 itemRow.className = 'cart-item';
                 itemRow.innerHTML = `
@@ -759,56 +812,19 @@
                     <button class="remove-item" onclick="removeCartItem('${item.id}')">Remove</button>
                 `;
                 cartItemsList.appendChild(itemRow);
+
+                // Build text message line
+                orderMessage += `▪️ ${item.name.trim()} (x${item.quantity}) - Br${itemTotal.toLocaleString()}.00 ETB\n`;
             });
 
             const totalTextString = `Br${totalSum.toLocaleString()}.00 ETB`;
             cartTotalSum.innerText = totalTextString;
 
-            document.getElementById('formOrderItems').value = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
-            document.getElementById('formCartTotal').value = totalTextString;
-        }
+            orderMessage += `\n💰 *Total:* Br${totalSum.toLocaleString()}.00 ETB`;
 
-        // Webform Submit Setup
-        function handleSecureOrder(event) {
-            event.preventDefault();
-            
-            submitBtn.innerText = "Sending...";
-            submitBtn.style.opacity = "0.6";
-            submitBtn.disabled = true;
-
-            const formElement = document.getElementById('checkoutForm');
-            const formData = new FormData(formElement);
-            const formObject = {};
-            formData.forEach((value, key) => { formObject[key] = value; });
-
-            fetch("https://api.web3forms.com/submit", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(formObject)
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert(`Order sent successfully!\n\nWe will contact you at ${formObject['Customer_Phone']} to arrange delivery.`);
-                    cart = [];
-                    document.getElementById('buyerPhone').value = '';
-                    updateCartUI();
-                    closeCartDrawer();
-                } else {
-                    throw new Error('Submission backend error');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('There was a problem processing your request. Please try again.');
-            })
-            .finally(() => {
-                submitBtn.innerText = "Send";
-                submitBtn.style.opacity = "1";
-                submitBtn.disabled = false;
-            });
+            // Update the <a> anchor element instantly & explicitly with formatted message parameters
+            const finalUrl = `https://t.me/${TELEGRAM_USERNAME}?text=${encodeURIComponent(orderMessage)}`;
+            telegramLink.setAttribute('href', finalUrl);
         }
 
         // Utilities Global Actions
