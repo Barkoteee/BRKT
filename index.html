@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BRKT</title>
+    <title>Barkot Scents</title>
     <link rel="icon" type="image/png" href="BRKT.png">
     <style>
         * {
@@ -36,7 +36,7 @@
         
         .logo {
             font-family: system-ui, "Fredoka One", "Comic Sans MS", cursive, sans-serif;
-            font-size: 38px; 
+            font-size: 24px; /* Reduced from 38px to fit "Barkot Scents" perfectly */
             font-weight: 800;
             letter-spacing: 0.5px;
             color: #000000;
@@ -44,11 +44,12 @@
             cursor: pointer;
             text-shadow: 2px 2px 0px rgba(0,0,0,0.04);
             user-select: none;
+            white-space: nowrap;
         }
 
         @media (min-width: 480px) {
             .logo {
-                font-size: 48px;
+                font-size: 32px; /* Reduced from 48px to look sleek on desktop */
             }
         }
         
@@ -546,6 +547,7 @@
             </svg>
         </button>
         
+        <!-- CHANGED: Logo text updated to Barkot Scents -->
         <div class="logo" id="logoHome">Barkot Scents</div>
         
         <div class="icons">
@@ -576,7 +578,7 @@
     </section>
 
     <footer>
-        <div>© 2026, BRKTshop <span class="footer-dot">·</span></div>
+        <div>© 2026, Barkot Scents <span class="footer-dot">·</span></div>
         <div class="footer-links">
             <a href="#" onclick="alert('Privacy policy summary.')">Privacy policy</a>
             <span class="footer-dot">·</span>
@@ -605,7 +607,6 @@
                 <span id="cartTotalSum">Br0.00 ETB</span>
             </div>
             
-            <!-- FIXED: Direct Anchor element with stylized inner div to prevent reloads -->
             <a href="#" target="_blank" class="telegram-link-wrapper" id="telegramLink">
                 <div class="telegram-btn">
                     <svg viewBox="0 0 24 24">
@@ -621,14 +622,14 @@
         // CONFIG: Your shop's actual Telegram username
         const TELEGRAM_USERNAME = "BarkotR"; 
 
-        // Data Store Setup
+        // Data Store Setup (Optimized: changed file extensions to .webp)
         const products = [
             {
                 id: "1",
                 name: " Baccarat Rouge 540 ",
                 price: 950,
                 bgClass: "bg-lime",
-                imgSrc: "bakarat.png",
+                imgSrc: "bakarat.webp",
                 desc: "Experience a fragrance that blends elegance with lasting sophistication. Baccarat Rouge 540 opens with luminous saffron and jasmine, leading into warm amberwood and ambergris before settling into a rich cedar and resinous finish."
             },
             {
@@ -636,7 +637,7 @@
                 name: "Qaed Al Fursan ",
                 price: 950,
                 bgClass: "bg-blue",
-                imgSrc: "Qaed.png",
+                imgSrc: "Qaed.webp",
                 desc: "Discover a bold fragrance that perfectly balances juicy tropical fruit with rich woody accords. Qaed Al Fursan opens with vibrant pineapple before revealing warm spices and settling into a smooth blend of oud, amber, cedarwood, and musk."
             },
             {
@@ -644,7 +645,7 @@
                 name: "Rave Now ",
                 price: 950,
                 bgClass: "bg-pink",
-                imgSrc: "now.png",
+                imgSrc: "now.webp",
                 desc: "Make a lasting impression with Rave Now, a vibrant fragrance that blends juicy pineapple with warm woody notes for a bold and confident scent."
             },
             {
@@ -652,7 +653,7 @@
                 name: "Stronger With You ",
                 price: 950,
                 bgClass: "bg-orange",
-                imgSrc: "swy.png",
+                imgSrc: "swy.webp",
                 desc: "Warm, sweet, and irresistibly masculine. Stronger With You Intensely opens with spicy pink pepper and cardamom, blends into rich toffee and cinnamon, and finishes with smooth vanilla, amber, and tonka bean."
             }
         ];
@@ -675,7 +676,7 @@
         const emptyMessage = document.getElementById('emptyMessage');
         const telegramLink = document.getElementById('telegramLink');
 
-        // Draw Catalog Grid dynamically
+        // Draw Catalog Grid dynamically (Optimized with Lazy Loading & Dimensions)
         function renderCatalog() {
             productGrid.innerHTML = '';
             products.forEach(product => {
@@ -683,7 +684,7 @@
                 card.className = 'card';
                 card.innerHTML = `
                     <div class="image-container ${product.bgClass}">
-                        <img src="${product.imgSrc}" alt="${product.name}" class="product-image" onerror="this.style.display='none'">
+                        <img src="${product.imgSrc}" alt="${product.name}" class="product-image" width="300" height="400" loading="lazy" onerror="this.style.display='none'">
                     </div>
                     <div class="info">
                         <div class="title">${product.name}</div>
@@ -713,14 +714,14 @@
             });
         }
 
-        // Display Detailed Page View
+        // Display Detailed Page View (Optimized with Lazy Loading & Dimensions)
         function showProductDetails(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
 
             productPageContent.innerHTML = `
                 <div class="image-container ${product.bgClass}">
-                    <img src="${product.imgSrc}" alt="${product.name}" class="product-image" onerror="this.style.display='none'">
+                    <img src="${product.imgSrc}" alt="${product.name}" class="product-image" width="300" height="400" loading="lazy" onerror="this.style.display='none'">
                 </div>
                 <div class="details-panel">
                     <h1 class="detail-title">${product.name}</h1>
@@ -777,6 +778,7 @@
         }
 
         // Dynamic Cart updates & Dynamic Link generation
+        // CHANGED: Header title inside message updated to Barkot Scents
         function updateCartUI() {
             const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
             
@@ -795,7 +797,7 @@
             cartItemsList.querySelectorAll('.cart-item').forEach(el => el.remove());
 
             let totalSum = 0;
-            let orderMessage = `🔔 *New Order from BRKTshop* 🔔\n\n`;
+            let orderMessage = `🔔 *New Order from Barkot Scents* 🔔\n\n`;
 
             cart.forEach(item => {
                 const itemTotal = item.price * item.quantity;
