@@ -36,7 +36,7 @@
         
         .logo {
             font-family: system-ui, "Fredoka One", "Comic Sans MS", cursive, sans-serif;
-            font-size: 24px; /* Reduced from 38px to fit "Barkot Scents" perfectly */
+            font-size: 24px;
             font-weight: 800;
             letter-spacing: 0.5px;
             color: #000000;
@@ -49,7 +49,7 @@
 
         @media (min-width: 480px) {
             .logo {
-                font-size: 32px; /* Reduced from 48px to look sleek on desktop */
+                font-size: 32px;
             }
         }
         
@@ -483,7 +483,7 @@
 
         /* Order button container styling */
         .telegram-link-wrapper {
-            display: none; /* Controlled dynamically by JavaScript */
+            display: none; 
             text-decoration: none;
             width: 100%;
         }
@@ -547,7 +547,6 @@
             </svg>
         </button>
         
-        <!-- CHANGED: Logo text updated to Barkot Scents -->
         <div class="logo" id="logoHome">Barkot Scents</div>
         
         <div class="icons">
@@ -619,10 +618,10 @@
     </div>
 
     <script>
-        // CONFIG: Your shop's actual Telegram username
         const TELEGRAM_USERNAME = "BarkotR"; 
 
-        // Data Store Setup (Optimized: changed file extensions to .webp)
+        // Data Store Setup
+        // Note: Change these image strings if your image files are named differently (e.g., "bakarat.png" or "images/bakarat.webp")
         const products = [
             {
                 id: "1",
@@ -676,7 +675,7 @@
         const emptyMessage = document.getElementById('emptyMessage');
         const telegramLink = document.getElementById('telegramLink');
 
-        // Draw Catalog Grid dynamically (Optimized with Lazy Loading & Dimensions)
+        // Draw Catalog Grid dynamically
         function renderCatalog() {
             productGrid.innerHTML = '';
             products.forEach(product => {
@@ -684,7 +683,7 @@
                 card.className = 'card';
                 card.innerHTML = `
                     <div class="image-container ${product.bgClass}">
-                        <img src="${product.imgSrc}" alt="${product.name}" class="product-image" width="300" height="400" loading="lazy" onerror="this.style.display='none'">
+                        <img src="${product.imgSrc}" alt="${product.name}" class="product-image" width="300" height="400" loading="lazy">
                     </div>
                     <div class="info">
                         <div class="title">${product.name}</div>
@@ -697,10 +696,8 @@
                     </div>
                 `;
                 
-                // Card click navigation
                 card.addEventListener('click', () => showProductDetails(product.id));
 
-                // Cart quick-add click handler
                 const addBtn = card.querySelector('.grid-add-btn');
                 addBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -714,14 +711,14 @@
             });
         }
 
-        // Display Detailed Page View (Optimized with Lazy Loading & Dimensions)
+        // Display Detailed Page View
         function showProductDetails(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
 
             productPageContent.innerHTML = `
                 <div class="image-container ${product.bgClass}">
-                    <img src="${product.imgSrc}" alt="${product.name}" class="product-image" width="300" height="400" loading="lazy" onerror="this.style.display='none'">
+                    <img src="${product.imgSrc}" alt="${product.name}" class="product-image" width="300" height="400" loading="lazy">
                 </div>
                 <div class="details-panel">
                     <h1 class="detail-title">${product.name}</h1>
@@ -777,8 +774,6 @@
             updateCartUI();
         }
 
-        // Dynamic Cart updates & Dynamic Link generation
-        // CHANGED: Header title inside message updated to Barkot Scents
         function updateCartUI() {
             const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
             
@@ -793,7 +788,6 @@
                 telegramLink.style.display = 'none';  
             }
 
-            // Reset Item rows
             cartItemsList.querySelectorAll('.cart-item').forEach(el => el.remove());
 
             let totalSum = 0;
@@ -803,7 +797,6 @@
                 const itemTotal = item.price * item.quantity;
                 totalSum += itemTotal;
 
-                // Add to visible cart drawer list
                 const itemRow = document.createElement('div');
                 itemRow.className = 'cart-item';
                 itemRow.innerHTML = `
@@ -815,7 +808,6 @@
                 `;
                 cartItemsList.appendChild(itemRow);
 
-                // Build text message line
                 orderMessage += `▪️ ${item.name.trim()} (x${item.quantity}) - Br${itemTotal.toLocaleString()}.00 ETB\n`;
             });
 
@@ -824,7 +816,6 @@
 
             orderMessage += `\n💰 *Total:* Br${totalSum.toLocaleString()}.00 ETB`;
 
-            // Update the <a> anchor element instantly & explicitly with formatted message parameters
             const finalUrl = `https://t.me/${TELEGRAM_USERNAME}?text=${encodeURIComponent(orderMessage)}`;
             telegramLink.setAttribute('href', finalUrl);
         }
